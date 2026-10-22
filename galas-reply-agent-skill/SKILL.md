@@ -24,9 +24,9 @@ TIMEZONE: America/New_York         # all times you write or compare are Eastern
 # Which Smartlead campaigns are Galas campaigns: found by name each run, no IDs to maintain.
 CAMPAIGN_NAME_MATCH: "Galas"       # any campaign whose name contains "Galas" (any capitalization)
 TEST_NAME_MATCH: "TEST"            # Galas campaigns whose name also contains "TEST" are test campaigns
-test_mode: true                    # true = only Galas TEST campaigns. false = only Galas campaigns WITHOUT "TEST". Only Elsa changes this.
+test_mode: false                    # true = only Galas TEST campaigns. false = only Galas campaigns WITHOUT "TEST". Only Elsa changes this.
 
-auto_send: true                   # false = every draft waits for Elsa. Only Elsa changes this.
+auto_send: false                   # false = every draft waits for Elsa. Only Elsa changes this.
 
 LINEAR_TEAM: GS Sales
 LOG_ISSUE: SALES-87                # "Gala replies: run log"
