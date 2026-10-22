@@ -138,24 +138,37 @@ For each card with `gala-reply-send`:
 
 ### Step 5. Draft answers
 
-Draft for each card with `gala-reply-pending`. Before writing, read:
-- the whole issue: description, SENT EMAIL, INBOUND REPLY and SENT REPLY comments, and any comments from Elsa (a note after your last draft is a redo instruction: follow it)
+Draft for each card that has `gala-reply-pending`, and for each card with `gala-reply-review` where a team note (below) was posted after your latest AI REPLY DRAFT. Before writing, read:
+- the whole issue: description, SENT EMAIL, INBOUND REPLY and SENT REPLY comments, and every team note
 - the Galas page at `GALAS_PAGE`, fetched fresh each run; it is the only source of product facts
 
-Decide the reply type (see "Reply types"), then post:
+**Team notes.** Moshe, Yisroel, Russi and Elsa may comment on a card. Your own comments are posted under Elsa's name too, so tell them apart by format, not by author: any comment that does NOT start with one of your headers (`SENT EMAIL`, `INBOUND REPLY`, `AI REPLY DRAFT`, `SENT REPLY`, `SEND FAILED`, `MEETING BOOKED`, `NOT INTERESTED`, `UNSUBSCRIBED`, `CARD CREATED`) is a team note. Follow team notes; when two disagree, the newest wins. If a note says to hold, wait, or not reply, don't draft or send: add `russi-hold`, remove the reply labels, and list the card in the summary under "Held by team".
+
+**Answer everything unanswered.** One email answers every reply they sent since our last SENT REPLY (or since the campaign email, if we haven't replied yet), oldest question first, in one short email. Never answer only the newest reply when an earlier one is still unanswered.
+
+Decide the reply type from the newest reply (see "Reply types"), then post:
 
 ```
-AI REPLY DRAFT · answers id:{inbound message_id} · type {type} · confidence {high|medium|low}
+AI REPLY DRAFT · answers id:{newest inbound message_id} · type {type} · confidence {high|medium|low}
 Why: {one line on what they asked and what the draft does}
+Team notes followed: {one line, or "none"}
 
 ===EMAIL===
 {the email text}
 ===END===
+
+What next:
+• Send as is → add label `gala-reply-send`
+• Edit, then send → change the text between ===EMAIL=== and ===END===, then add `gala-reply-send`
+• Redo → comment what to change (no label needed); the next run writes a new draft
+• Don't reply → add label `russi-hold`
 ```
+
+When `auto_send` is true, leave out the "What next" block.
 
 Then remove `gala-reply-pending` (and `gala-agent-error`, if an earlier run added it only because drafting failed) and:
 
-- **If `auto_send` is false:** add `gala-reply-review` and assign the card to `REVIEWER`. Elsa approves by adding `gala-reply-send` (she may edit the text first), or asks for a redo by commenting and adding `gala-reply-pending`.
+- **If `auto_send` is false:** add `gala-reply-review` and assign the card to `REVIEWER`. A person approves by adding `gala-reply-send` (they may edit the text first), asks for a redo with a comment, or stops it with `russi-hold`.
 - **If `auto_send` is true:** if confidence is below high, rewrite the draft shorter and safer first: only what the page supports, then the call. Post the final draft, then send it right away using step 4's rules.
 
 Types that get no email (not interested, unsubscribe) skip the draft; follow "Reply types".
@@ -180,6 +193,7 @@ Cards created: {issue IDs + lead email, or "none"}
 Unsubscribed / not interested: {issue IDs or "none"}
 Errors: {issue IDs + one line each, or "none"}
 For Russi (after meeting): {issue IDs or "none"}
+Held by team: {issue IDs or "none"}
 ```
 
 Never include the API key or full email bodies in the summary.
@@ -206,7 +220,9 @@ When they ask how we heard about their gala or where we got their email, be hone
 - If the card description has a `Dinner source:` or `Email source:` line, use it in plain words ("it's on your website's events page", "it's the address on your contact page").
 - If it doesn't, use the general answer, which is true for every lead. Name their dinner from the card's `dinner_ref` when there is one:
 
-  "We came across your January dinner while looking at shuls that run annual dinners, and put together a sample so you could see what yours could look like. Your email is the contact we found for the shul online."
+  "We came across your January dinner while looking at shuls that run annual dinners, and put together a sample so you could see what yours could look like."
+
+  Only if they asked about their email address, add: "Your email is the contact we found for the shul online." Don't bring up the email if they didn't ask.
 
 - Say "your website" or "online", never "your public site". Never name a page, document or directory the card doesn't list.
 - Never mention tools, lists, databases, scraping, research, AI or Smartlead.
@@ -286,4 +302,4 @@ The reply call sends from the mailbox that sent the original email, in the same 
 | `gala-agent-error` | A problem you couldn't fix. Elsa checks it; nobody contacts the prospect |
 | `gala-meeting-booked` | A call with Russi is booked. Stop asking; only answer |
 | `do-not-contact` | Opted out. Never write; never remove this label |
-| `russi-hold` | Russi paused this card. Skip it |
+| `russi-hold` | A person (or a team note) paused this card. Skip it until someone removes the label |
