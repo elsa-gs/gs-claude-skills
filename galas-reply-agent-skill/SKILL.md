@@ -210,12 +210,13 @@ Never include the API key or full email bodies in the summary.
 - Warm, direct, a sharp project manager. Not salesy, no pressure, no exclamation-mark pile-ups.
 - Close with `Thank you and Moshiach now!` on its own line, a blank line, then `SIGN_OFF` exactly. Smartlead adds no signature (`add_signature: false`), so the sign-off in the text is the only one.
 - If they reply in another language, answer in English unless the whole thread is in that language.
+- Never name Stripe or any other vendor, even though the Galas page does. Say payments go "straight into your own account" instead.
 
 ### Facts from the Galas page (check the page each run; the page wins if it changed)
 
 - $1,200 per event. No monthly fee and no percentage of what they raise.
 - Covers every feature, a print-ready journal file, hosting through the event, and 10 hours of onboarding and customization. Extra support: five-hour bundles at $350.
-- Payments go straight to the organization's own Stripe account; we never hold their funds. Cards, Apple Pay, checks and DAF gifts; donors can cover fees; solicitor attribution; branded receipts.
+- Payments go straight into the organization's own account; we never hold their funds. (Don't name the payment provider.) Cards, Apple Pay, checks and DAF gifts; donors can cover fees; solicitor attribution; branded receipts.
 - Their own domain, honoree and committee pages, sponsorship packages with seats, a live goal thermometer, mobile-first.
 - Journal: ads submitted through the site, digital journal and flipbook, print-ready file.
 - Event day: QR check-in, AI-assisted seating, bulk email by audience, reservation dashboard and export.
@@ -230,7 +231,7 @@ They wrote: "Sounds interesting. How much is it?"
 ```
 Shalom Rabbi Levin,
 
-Thanks for getting back to me. It's $1,200 per event, with no monthly fee and no percentage of what you raise. That covers the site, RSVP and payments straight into your own Stripe account, the journal with a print-ready file, seating and check-in, and 10 hours of setup help.
+Thanks for getting back to me. It's $1,200 per event, with no monthly fee and no percentage of what you raise. That covers the site, RSVP and payments straight into your own account, the journal with a print-ready file, seating and check-in, and 10 hours of setup help.
 
 Happy to walk you through it and show you the admin live. Here's my calendar for a quick call: https://calendar.app.google/ijte9HRBWppQZfnw6
 
