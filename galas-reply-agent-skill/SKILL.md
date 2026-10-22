@@ -37,7 +37,7 @@ GALAS_PAGE: https://gorinsystems.com/galas
 ## Hard rules
 
 1. Work only on Linear issues in GS Sales that have the `Gala` label, and only on leads in this run's Galas campaigns (Step 0). Never touch a card labeled `GS`.
-2. Never create a lead issue. If a reply has no matching issue, list it in the run summary under "No issue found" and do nothing else for it.
+2. Create a lead issue only in one case: a real reply (Step 2) from a lead in this run's Galas campaigns whose `lead_id` has no Gala issue yet. Then create it as described in Step 2 and handle the reply in the same run. Never create an issue for any other reason (no issues for leads who haven't replied, and none for senders who aren't Smartlead leads in a Galas campaign).
 3. Match a reply to its issue by Smartlead `lead_id` (the description contains `lead_id {id}`), never by the sender's address. People often reply from a different address than the lead email.
 4. Send email only through Smartlead's reply-in-thread call (see "Smartlead API"). Never send from anywhere else, and never email a new address.
 5. Never print, post or comment the Smartlead API key. It lives only in `$SMARTLEAD_API_KEY`.
@@ -78,6 +78,26 @@ For each of this run's Galas campaigns, find leads with a reply (see "Smartlead 
 Ignore, and don't post anything for:
 - out-of-office and other automatic replies (the Smartlead sequence restarts them on its own)
 - bounces and mailer-daemon notices
+
+If a real reply's `lead_id` has no Gala issue in GS Sales, create one first, then continue as normal:
+
+- Title: `Gala · {Organization}` (the lead's company name)
+- Status: Running; label: `Gala` only; no assignee
+- Description:
+
+```
+**{Contact name or —}** · {lead email} · {Organization} · {website or —}
+Gala date: {from the lead's est_next_gala field, else blank}
+Smartlead campaign: {campaign name} (campaign_id {id}) · lead_id {id}
+
+**Research**
+{the lead's custom fields as a list, else "None yet"}
+
+Card created by the Galas Reply Agent on {date}, when this lead first replied.
+```
+
+- Add a SENT EMAIL comment for each email we already sent this lead (Step 1's format), then continue with the INBOUND REPLY below.
+- List the new issue in the summary under "Cards created".
 
 For every real reply, add:
 
@@ -133,7 +153,7 @@ Why: {one line on what they asked and what the draft does}
 ===END===
 ```
 
-Then remove `gala-reply-pending` and:
+Then remove `gala-reply-pending` (and `gala-agent-error`, if an earlier run added it only because drafting failed) and:
 
 - **If `auto_send` is false:** add `gala-reply-review` and assign the card to `REVIEWER`. Elsa approves by adding `gala-reply-send` (she may edit the text first), or asks for a redo by commenting and adding `gala-reply-pending`.
 - **If `auto_send` is true:** if confidence is below high, rewrite the draft shorter and safer first: only what the page supports, then the call. Post the final draft, then send it right away using step 4's rules.
@@ -156,7 +176,7 @@ New replies: {n} ({issue IDs})
 Drafted: {n} ({issue IDs}) · Sent: {n} ({issue IDs})
 Meetings booked: {n} ({issue IDs})
 Unmatched bookings: {guest email + time, or "none"}
-No issue found: {lead email + campaign, or "none"}
+Cards created: {issue IDs + lead email, or "none"}
 Unsubscribed / not interested: {issue IDs or "none"}
 Errors: {issue IDs + one line each, or "none"}
 For Russi (after meeting): {issue IDs or "none"}
@@ -244,7 +264,7 @@ The reply call sends from the mailbox that sent the original email, in the same 
 
 | Label | Meaning |
 |---|---|
-| `Gala` | A Galas prospect card. Set when the lead is added. You only work on these |
+| `Gala` | A Galas prospect card. Set when the card is created (by Elsa, the Lead agent, or you when a card-less lead replies). You only work on these |
 | `gala-reply-pending` | A new reply (or Elsa's redo note) is waiting for a draft |
 | `gala-reply-review` | A draft waits for Elsa (only while `auto_send` is false) |
 | `gala-reply-send` | Send the newest draft on the next run |
