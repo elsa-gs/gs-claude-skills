@@ -31,6 +31,7 @@ auto_send: false                   # false = every draft waits for Elsa. Only El
 LINEAR_TEAM: GS Sales
 LOG_ISSUE: SALES-87                # "Gala replies: run log"
 REVIEWER: Elsa
+RUSSI_MENTION: "@russi"            # Russi's Linear handle, used only in the day-before brief
 GALAS_PAGE: https://gorinsystems.com/galas
 ```
 
@@ -121,6 +122,7 @@ When matched:
 - add `gala-meeting-booked`; remove `gala-reply-pending`, `gala-reply-review` and `gala-reply-send`
 - comment `MEETING BOOKED · {start time, Eastern} · guest {email}`
 - in Smartlead, set the lead's category to Meeting Booked and pause the lead in its campaign
+- post a MEETING BRIEF comment (see "Meeting briefs"), without mentioning Russi. If the meeting starts within the day-before window (Step 6), post the day-before brief with the mention instead, so she isn't notified twice
 
 A booking you can't match goes in the summary under "Unmatched bookings". Don't guess.
 
@@ -142,7 +144,7 @@ Draft for each card that has `gala-reply-pending`, and for each card with `gala-
 - the whole issue: description, SENT EMAIL, INBOUND REPLY and SENT REPLY comments, and every team note
 - the Galas page at `GALAS_PAGE`, fetched fresh each run; it is the only source of product facts
 
-**Team notes.** Moshe, Yisroel, Russi and Elsa may comment on a card. Your own comments are posted under Elsa's name too, so tell them apart by format, not by author: any comment that does NOT start with one of your headers (`SENT EMAIL`, `INBOUND REPLY`, `AI REPLY DRAFT`, `SENT REPLY`, `SEND FAILED`, `MEETING BOOKED`, `NOT INTERESTED`, `UNSUBSCRIBED`, `CARD CREATED`) is a team note. Follow team notes; when two disagree, the newest wins. If a note says to hold, wait, or not reply, don't draft or send: add `russi-hold`, remove the reply labels, and list the card in the summary under "Held by team".
+**Team notes.** Moshe, Yisroel, Russi and Elsa may comment on a card. Your own comments are posted under Elsa's name too, so tell them apart by format, not by author: any comment that does NOT start with one of your headers (`SENT EMAIL`, `INBOUND REPLY`, `AI REPLY DRAFT`, `SENT REPLY`, `SEND FAILED`, `MEETING BOOKED`, `MEETING BRIEF`, `NOT INTERESTED`, `UNSUBSCRIBED`, `CARD CREATED`) is a team note. Follow team notes; when two disagree, the newest wins. If a note says to hold, wait, or not reply, don't draft or send: add `russi-hold`, remove the reply labels, and list the card in the summary under "Held by team".
 
 **Answer everything unanswered.** One email answers every reply they sent since our last SENT REPLY (or since the campaign email, if we haven't replied yet), oldest question first, in one short email. Never answer only the newest reply when an earlier one is still unanswered.
 
@@ -173,9 +175,43 @@ Then remove `gala-reply-pending` (and `gala-agent-error`, if an earlier run adde
 
 Types that get no email (not interested, unsubscribe) skip the draft; follow "Reply types".
 
-### Step 6. After the meeting
+### Step 6. Day-before brief, and after the meeting
 
-If a card has `gala-meeting-booked` and the meeting time has passed, don't draft. Log any new reply as usual, leave `gala-reply-pending` off, and list it in the summary under "For Russi (after meeting)".
+**Day-before brief.** For each card with `gala-meeting-booked` whose meeting (from its MEETING BOOKED comment) is still ahead and starts before the end of tomorrow, Eastern (on Friday, also include Sunday, since there are no Shabbos runs): if the card has no `MEETING BRIEF · day before` comment yet, post one (see "Meeting briefs"), starting with `RUSSI_MENTION` so Linear notifies her. Post it once per meeting. If someone added `gala-meeting-booked` by hand (no MEETING BOOKED comment), look for the meeting on `RUSSI_CALENDAR_ID` by the lead's email; if you find it, post the MEETING BOOKED comment and the booking brief now; if not, post a booking brief with the time as "Not known" and list the card in the summary under "Errors" so Elsa adds the time. If the meeting was rescheduled (a new MEETING BOOKED comment), the new time gets its own day-before brief.
+
+**After the meeting.** If a card has `gala-meeting-booked` and the meeting time has passed, don't draft. Log any new reply as usual, leave `gala-reply-pending` off, and list it in the summary under "For Russi (after meeting)".
+
+## Meeting briefs
+
+A brief is for Russi to read in two minutes before the call. Build it only from the card (description, comments, team notes) and the Galas page. Plain, friendly and scannable. Don't invent anything; write "Not known" where the card has nothing.
+
+```
+MEETING BRIEF · {at booking | day before} · {meeting day, date, time Eastern}
+{RUSSI_MENTION, only in the day-before brief} Here's your prep for {Organization}.
+
+**Who**
+{Organization} · {contact name and title if known, else "Not known"} · {lead email}{, and the address they replied from if different}
+Gala: {dinner_ref / est_next_gala, else "Not known"}
+Website: {website or "Not known"}
+
+**What they've seen**
+Sample site: {site_url} · Mockup: {mockup_url}
+Emails: {n} from us, {n} replies from them
+
+**The conversation so far**
+• {one line per reply of theirs, oldest first: what they asked or said, and what we answered}
+
+**What they care about**
+{one or two lines: price, journal, timing, payments, whatever their replies show; "No questions yet" if none}
+
+**Open questions to cover on the call**
+• {anything we said Russi would go through on the call, or that the page doesn't answer, e.g. printing the journal}
+
+**Suggested opening**
+{one or two sentences Russi could start with, tied to their gala and what they asked}
+```
+
+In the day-before brief, also add a line at the top of "The conversation so far" for anything new since the booking brief, or "Nothing new since booking".
 
 ### Step 7. Run summary
 
@@ -188,6 +224,7 @@ Sent emails logged: {n}
 New replies: {n} ({issue IDs})
 Drafted: {n} ({issue IDs}) · Sent: {n} ({issue IDs})
 Meetings booked: {n} ({issue IDs})
+Meeting briefs: {issue IDs + "at booking" or "day before", or "none"}
 Unmatched bookings: {guest email + time, or "none"}
 Cards created: {issue IDs + lead email, or "none"}
 Unsubscribed / not interested: {issue IDs or "none"}
