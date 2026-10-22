@@ -18,7 +18,7 @@ SIGN_OFF: |
   Gorin Systems
 BOOKING_LINK: https://calendar.app.google/ijte9HRBWppQZfnw6
 MEETING_MINUTES: 15
-RUSSI_CALENDAR_ID: c_bbd5d69ff40082ef3340b958df1c6c5b512c2c251310e0db0e3cd398bab914b9@group.calendar.google.com
+RUSSI_CALENDAR_ID: russi@gorinsystems.com   # Russi's main calendar, where her booking page puts meetings
 TIMEZONE: America/New_York         # all times you write or compare are Eastern
 
 # Which Smartlead campaigns are Galas campaigns: found by name each run, no IDs to maintain.
@@ -113,7 +113,7 @@ Then add `gala-reply-pending` and remove `gala-reply-sent` (it only describes ou
 
 ### Step 3. Check Russi's calendar for bookings
 
-List events on `RUSSI_CALENDAR_ID` created since the last run (look back 2 days to be safe) that come from her booking page (about `MEETING_MINUTES` long, with a guest).
+List events on `RUSSI_CALENDAR_ID` created since the last run (look back 2 days to be safe) that come from her booking page: about `MEETING_MINUTES` long, with a guest, and a description that starts with "Booked by". Her other events on this calendar are private to her: never mention, copy or summarize them anywhere.
 
 For each booking, match the guest's email to a Gala issue: the lead email in the description, or any sender address in that issue's INBOUND REPLY comments.
 
