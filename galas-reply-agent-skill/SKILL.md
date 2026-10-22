@@ -108,7 +108,7 @@ Subject: {subject}
 {reply text, without the quoted earlier emails}
 ```
 
-Then add `gala-reply-pending`. If the card is still in Running, move it to Interest.
+Then add `gala-reply-pending` and remove `gala-reply-sent` (it only describes our last reply, which is now answered by a newer message). If the card is still in Running, move it to Interest.
 
 ### Step 3. Check Russi's calendar for bookings
 
