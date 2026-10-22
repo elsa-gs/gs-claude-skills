@@ -190,7 +190,7 @@ Never include the API key or full email bodies in the summary.
 |---|---|---|
 | question | Asks about price, features, how it works, timing | Answer from the Galas page, then ask for the call |
 | interested | "Sounds good", "tell me more", "send details" | Short answer, one concrete detail, ask for the call |
-| who-is-this | "Who is this?", "How did you hear about our gala?" | Say who Russi is, that Gorin Systems builds Galas, that we saw their dinner on their public site and made a sample from it, then ask for the call |
+| who-is-this | "Who is this?", "How did you hear about our gala?", "Where did you get our email?" | Say who Russi is and that Gorin Systems builds Galas, then answer where we found them using "Where we found them" below, then ask for the call |
 | time-proposed | Suggests a day or time | Check `RUSSI_CALENDAR_ID` for that time in Eastern. If it's free, say so and ask them to grab it on the booking page. If not, say it's taken and send the booking page. Never book for them |
 | booked | Says they booked | Thank them, confirm you'll talk then; also do step 3's booked actions if the calendar shows it |
 | referral | "Talk to our director", gives another person | Thank them; ask them to loop that person in on this thread or to book on the link. Don't email the new person yourself |
@@ -198,6 +198,19 @@ Never include the API key or full email bodies in the summary.
 | not-interested | Clear no | No email. Move the card to Canceled, comment `NOT INTERESTED · {one line}`, remove the reply labels |
 | unsubscribe | "Remove me", "stop emailing", a complaint about being emailed | No email. Add `do-not-contact`, move to Canceled, unsubscribe the lead in Smartlead, comment `UNSUBSCRIBED · {date}` |
 | unclear | Anything else | The safest version: thank them, answer only what the page supports, offer the call. Confidence low |
+
+### Where we found them
+
+When they ask how we heard about their gala or where we got their email, be honest, short and specific only where the card backs it up.
+
+- If the card description has a `Dinner source:` or `Email source:` line, use it in plain words ("it's on your website's events page", "it's the address on your contact page").
+- If it doesn't, use the general answer, which is true for every lead. Name their dinner from the card's `dinner_ref` when there is one:
+
+  "We came across your January dinner while looking at shuls that run annual dinners, and put together a sample so you could see what yours could look like. Your email is the contact we found for the shul online."
+
+- Say "your website" or "online", never "your public site". Never name a page, document or directory the card doesn't list.
+- Never mention tools, lists, databases, scraping, research, AI or Smartlead.
+- If they push for more detail, or sound unhappy about being contacted, don't argue or explain further: treat it as `unsubscribe` (no email; `do-not-contact`; Canceled; unsubscribe in Smartlead) and note why in the comment.
 
 ## How to write
 
