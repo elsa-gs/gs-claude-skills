@@ -120,9 +120,11 @@ For each booking, match the guest's email to a Gala issue: the lead email in the
 When matched:
 - move the card to First meeting
 - add `gala-meeting-booked`; remove `gala-reply-pending`, `gala-reply-review` and `gala-reply-send`
-- comment `MEETING BOOKED · {start time, Eastern} · guest {email}`
+- comment MEETING BOOKED in the format below
 - in Smartlead, set the lead's category to Meeting Booked and pause the lead in its campaign
 - post a MEETING BRIEF comment (see "Meeting briefs"), without mentioning Russi. If the meeting starts within the day-before window (Step 6), post the day-before brief with the mention instead, so she isn't notified twice
+
+**Meeting times: compute them, never work them out in your head.** Take the event's `start.dateTime` exactly as returned, including its UTC offset (for example `2026-10-26T16:00:00-04:00`), and ignore the event's and calendar's `timeZone` fields. Convert it with code, for example `TZ=America/New_York date -d "2026-10-26T16:00:00-04:00" "+%a %b %-d, %Y %-I:%M %p"`, and use that output for the day, date and time in every comment, brief and summary. Put the raw start in the MEETING BOOKED comment too: `MEETING BOOKED · {converted day, date, time} Eastern ({raw start.dateTime}) · guest {email}`. Use the same converted time for the day-before window.
 
 A booking you can't match goes in the summary under "Unmatched bookings". Don't guess.
 
